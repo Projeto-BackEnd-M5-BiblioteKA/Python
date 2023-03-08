@@ -29,8 +29,19 @@ pip install -r requirements.txt
 #### POSTGRES_HOST= " Chave opcional, para definir o host em que a aplicação irá rodar "
 #### POSTGRES_PORT= " Chave opcional, para definir a porta em que a aplicação irá rodar "
 
-5. Rode a aplicação para visualizar se ocorreu tudo certo:
+5. Execute as migrações no seu console:
 
 ```bash
+python manage.py makemigrations
+```
+
+```bash
+python manage.py migrate
+```
+
+6. Crie sua branch para sua tarefa e rode a aplicação para visualizar se ocorreu tudo certo:
+
+```bash
+git checkout -b nome da branch
 python manage.py runserver
 ```
