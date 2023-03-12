@@ -20,7 +20,7 @@ class BookGeneralView(APIView):
 
 class BookEmployeeView(APIView):
 
-    permission_classes = [IsAuthenticated, IsEmployee]
+    permission_classes = [IsEmployee]
 
     def post(self, request: Request) -> Response:
         serializer = BookSerializer(data=request.data)
@@ -31,7 +31,7 @@ class BookEmployeeView(APIView):
 
 class BookEmployeeDetailView(APIView):
 
-    permission_classes = [IsAuthenticated, IsEmployee]
+    permission_classes = [IsEmployee]
 
     def patch(self, request: Request, pk: uuid4) -> Response:
         book = get_object_or_404(Book, pk=pk)
@@ -45,17 +45,4 @@ class BookEmployeeDetailView(APIView):
         book = get_object_or_404(Book, pk=pk)
         book.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
-class BookUserDetailView(APIView):
-
-    permission_classes = [IsAuthenticated]
-
-    def put(self, request: Request, pk: uuid4) -> Response:
-        book = get_object_or_404(Book, pk=pk)
-        following = Following.objects.create(
-            user=request.user,
-            book=book
-        )
-        return Response(following.id, status=status.HTTP_201_CREATED)
-
             
