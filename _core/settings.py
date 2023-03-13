@@ -30,19 +30,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
 DEBUG = os.getenv("DEBUG", False)
 
-# RAILWAY_STATIC_URL = os.getenv("RAILWAY_STATIC_URL")
-RENDER_EXTERNAL_HOSTNAME = os.getenv("RENDER_EXTERNAL_HOSTNAME")
+RAILWAY_STATIC_URL = os.getenv("RAILWAY_STATIC_URL")
+# RENDER_EXTERNAL_HOSTNAME = os.getenv("RENDER_EXTERNAL_HOSTNAME")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
 ALLOWED_HOSTS = []
 
-# if RAILWAY_STATIC_URL:
-#     ALLOWED_HOSTS += [RAILWAY_STATIC_URL, "0.0.0.0"]
+if RAILWAY_STATIC_URL:
+    ALLOWED_HOSTS += [RAILWAY_STATIC_URL, "0.0.0.0"]
 
-if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS += [RENDER_EXTERNAL_HOSTNAME, "0.0.0.0"]
+# if RENDER_EXTERNAL_HOSTNAME:
+#     ALLOWED_HOSTS += [RENDER_EXTERNAL_HOSTNAME, "0.0.0.0"]
 
 
 # Application definition
