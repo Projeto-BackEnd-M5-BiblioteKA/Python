@@ -20,7 +20,7 @@ class BookGeneralView(APIView):
 
 class BookEmployeeView(APIView):
 
-    # permission_classes = [IsAuthenticated, IsEmployee]
+    permission_classes = [IsAuthenticated, IsEmployee]
 
     def post(self, request: Request) -> Response:
         serializer = BookSerializer(data=request.data)
@@ -32,7 +32,7 @@ class BookEmployeeView(APIView):
 
 class BookEmployeeDetailView(APIView):
 
-    # permission_classes = [IsAuthenticated, IsEmployee]
+    permission_classes = [IsAuthenticated, IsEmployee]
 
     def patch(self, request: Request, pk: uuid4) -> Response:
         book = get_object_or_404(Book, pk=pk)
