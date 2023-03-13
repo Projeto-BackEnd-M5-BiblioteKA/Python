@@ -36,7 +36,7 @@ RAILWAY_STATIC_URL = os.getenv("RAILWAY_STATIC_URL")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["python-production-fb5a.up.railway.app", "0.0.0.0"]
 
 if RAILWAY_STATIC_URL:
     ALLOWED_HOSTS += [RAILWAY_STATIC_URL, "0.0.0.0"]
