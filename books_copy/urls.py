@@ -3,5 +3,5 @@ from .views import BookCopyView
 from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
-    path("books/<int:pk>/copy", BookCopyView.as_view()),
+    path("books/<uuid:book_id>/copy", BookCopyView.as_view()),
 ]
