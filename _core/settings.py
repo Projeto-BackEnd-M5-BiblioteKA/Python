@@ -44,6 +44,12 @@ if RAILWAY_STATIC_URL:
 # if RENDER_EXTERNAL_HOSTNAME:
 #     ALLOWED_HOSTS += [RENDER_EXTERNAL_HOSTNAME, "0.0.0.0"]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "python-production-fb5a.up.railway.app",
+    "0.0.0.0",
+]
+
 
 # Application definition
 
@@ -56,7 +62,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = ["rest_framework"]
+THIRD_PARTY_APPS = ["rest_framework", "corsheaders"]
 
 MY_APPS = ["users", "books", "books_copy", "followings", "loans"]
 
@@ -65,6 +71,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
