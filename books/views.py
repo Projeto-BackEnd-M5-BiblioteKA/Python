@@ -1,12 +1,11 @@
-from django.shortcuts import render
 from rest_framework.views import APIView, Response, Request, status
 from django.shortcuts import get_object_or_404
-from rest_framework.permissions import IsAuthenticated
 from .serializers import BookSerializer
 from .models import Book
-from .permissions import IsEmployee
 from uuid import uuid4
-from followings.models import Following
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAdminUser
 
 # Create your views here.
 
@@ -19,7 +18,8 @@ class BookGeneralView(APIView):
 
 
 class BookEmployeeView(APIView):
-    permission_classes = [IsEmployee]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
     def post(self, request: Request) -> Response:
         serializer = BookSerializer(data=request.data)
@@ -30,7 +30,8 @@ class BookEmployeeView(APIView):
 
 
 class BookEmployeeDetailView(APIView):
-    permission_classes = [IsEmployee]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsAdminUser]
 
     def patch(self, request: Request, pk: uuid4) -> Response:
         book = get_object_or_404(Book, pk=pk)

@@ -28,21 +28,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret! // DEPLOY CONFIG
 SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
+DEBUG = os.getenv("DEBUG", False)
 RAILWAY_STATIC_URL = os.getenv("RAILWAY_STATIC_URL")
+
+
+# SECURITY WARNING: don't run with debug turned on in production!
+
+ALLOWED_HOSTS = []
 
 if RAILWAY_STATIC_URL:
     ALLOWED_HOSTS += [RAILWAY_STATIC_URL, "0.0.0.0"]
-
-MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
-    # (...)
-]
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -64,6 +59,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + MY_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -142,6 +138,11 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=7),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=14),
+}
 
 AUTH_USER_MODEL = "users.User"
 
