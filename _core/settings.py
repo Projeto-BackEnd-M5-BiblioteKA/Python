@@ -46,8 +46,7 @@ if RAILWAY_STATIC_URL:
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "python-production-fb5a.up.railway.app",
-    "0.0.0.0",
+    "https://python-production-fb5a.up.railway.app",
 ]
 
 
