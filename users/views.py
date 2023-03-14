@@ -12,8 +12,6 @@ from rest_framework.generics import (
 class UserView(ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [CustomUserPermissions]
 
     def get_queryset(self):
         user = self.request.user
@@ -22,6 +20,12 @@ class UserView(ListCreateAPIView):
             return User.objects.all()
 
         return User.objects.filter(id=user.id)
+
+    def get_authenticators(self):
+        if self.request.method == "GET":
+            return [JWTAuthentication()]
+        else:
+            return []
 
 
 class UserViewDetail(RetrieveUpdateDestroyAPIView):
