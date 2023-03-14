@@ -27,7 +27,7 @@ class LoanDetailView(APIView):
     def get(self, request: Request, pk) -> Response:
         is_collaborator = request.user.is_collaborator
 
-        if pk != request.user.id and not is_collaborator:
+        if pk != request.user.id or not is_collaborator:
             raise ValidationError("You don't have permissions.")
 
         if is_collaborator:
