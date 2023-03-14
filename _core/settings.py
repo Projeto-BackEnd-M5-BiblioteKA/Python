@@ -58,7 +58,18 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-THIRD_PARTY_APPS = ["rest_framework", "corsheaders"]
+THIRD_PARTY_APPS = ["rest_framework", "corsheaders", "drf_spectacular"]
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Grupo 20 - BiblioteKA",
+    "DESCRIPTION": "Gerenciamento de biblioteca.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
 
 MY_APPS = ["users", "books", "books_copy", "followings", "loans"]
 
