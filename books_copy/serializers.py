@@ -3,13 +3,12 @@ from .models import BookCopy
 
 
 class BookCopySerializer(serializers.ModelSerializer):
+    book_title = serializers.SerializerMethodField()
 
-    def create(self, validated_data: dict) -> BookCopy:
-
-        return BookCopy.objects.create(**validated_data)
+    def get_book_title(self, obj):
+        return obj.book.title
 
     class Meta:
         model = BookCopy
-        fields = ['id',
-                  'is_borrowed',
-                  'book']
+        fields = ["id", "book_title", "book", "is_borrowed"]
+        read_only_fields = ["book_title"]

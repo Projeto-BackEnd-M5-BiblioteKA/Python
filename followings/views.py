@@ -22,9 +22,11 @@ class FollowingView(generics.CreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
         id = serializer.data["book"]
+        book = get_object_or_404(Book, id=id)
         name_user = self.request.user.first_name
-        title = Book.objects.get(id=id).title
-        copies = Book.objects.get(id=id).copies_quantity
+        title = book.title
+        copies = book.copies_quantity
+
         msg_not_available = (
             f"Olá, {name_user}! \n"
             f"No momento não temos cópias do livro {title} disponível\n"
@@ -36,6 +38,7 @@ class FollowingView(generics.CreateAPIView):
             f"Notamos seu interesse no livro {title}. Que tal fazer uma reserva?\n"
             f"Temos {copies} {'cópia' if copies > 0 and  copies == 1 else 'cópias'} do livro."
         )
+
         send_mail(
             subject="BiblioteKA",
             message=f"{msg_available if copies > 0 else msg_not_available}",

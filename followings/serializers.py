@@ -16,3 +16,5 @@ class FollowingSerializer(serializers.ModelSerializer):
             "user",
             "book",
         )
+
+        read_only_fields = ["user"]

@@ -6,7 +6,8 @@ from books_copy.models import BookCopy
 class BookSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         book = Book.objects.create(**validated_data)
-        for i in range(validated_data["copies_quantity"]):
+
+        for _ in range(validated_data["copies_quantity"]):
             BookCopy.objects.create(book=book)
         return book
 
