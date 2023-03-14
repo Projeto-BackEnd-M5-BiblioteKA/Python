@@ -2,7 +2,7 @@ from .models import User
 from .serializers import UserSerializer
 from .permissions import CustomUserPermissions
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
@@ -12,6 +12,8 @@ from rest_framework.generics import (
 class UserView(ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [CustomUserPermissions]
 
     def get_queryset(self):
         user = self.request.user
@@ -20,12 +22,6 @@ class UserView(ListCreateAPIView):
             return User.objects.all()
 
         return User.objects.filter(id=user.id)
-
-    def get_authenticators(self):
-        if self.request.method == "GET":
-            return [JWTAuthentication()]
-        else:
-            return []
 
 
 class UserViewDetail(RetrieveUpdateDestroyAPIView):
