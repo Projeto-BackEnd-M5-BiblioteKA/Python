@@ -10,6 +10,9 @@ Um sistema de gestão bibliotecária.
 ## Documentação do Projeto:
 <a href="https://python-production-fb5a.up.railway.app/api/docs/swagger-ui/#/"> Acessar link </a> 
 
+## URL base
+
+<h2>https://python-production-fb5a.up.railway.app/api</p>
 
 ## Instruções de uso:
 
