@@ -6,7 +6,7 @@ info:
 paths:
   /api/books/:
     get:
-      operationId: api_books_retrieve
+      operationId: api_books_list
       tags:
       - api
       security:
@@ -15,10 +15,16 @@ paths:
       - {}
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+          description: ''
   /api/books/{book_id}/copy:
     get:
-      operationId: api_books_copy_retrieve
+      operationId: api_books_copy_list
       parameters:
       - in: path
         name: book_id
@@ -32,7 +38,13 @@ paths:
       - jwtAuth: []
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookCopy'
+          description: ''
     post:
       operationId: api_books_copy_create
       parameters:
@@ -44,40 +56,56 @@ paths:
         required: true
       tags:
       - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookCopy'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookCopy'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BookCopy'
+        required: true
       security:
       - jwtAuth: []
       responses:
-        '200':
-          description: No response body
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookCopy'
+          description: ''
   /api/books/employee/:
     post:
       operationId: api_books_employee_create
       tags:
       - api
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          description: No response body
-  /api/books/employee/{id}/:
-    patch:
-      operationId: api_books_employee_partial_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: string
-          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Book'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Book'
         required: true
-      tags:
-      - api
       security:
       - jwtAuth: []
       responses:
-        '200':
-          description: No response body
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: ''
+  /api/books/employee/{id}/delete/:
     delete:
-      operationId: api_books_employee_destroy
+      operationId: api_books_employee_delete_destroy
       parameters:
       - in: path
         name: id
@@ -92,6 +120,70 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/books/employee/{id}/update/:
+    put:
+      operationId: api_books_employee_update_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Book'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Book'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: ''
+    patch:
+      operationId: api_books_employee_update_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBook'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBook'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBook'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: ''
   /api/books/followings/:
     post:
       operationId: api_books_followings_create
@@ -159,9 +251,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Loan'
           description: ''
-  /api/books/loans/{id}:
+  /api/books/loans/{id}/:
     get:
-      operationId: api_books_loans_retrieve
+      operationId: api_books_loans_list_2
       parameters:
       - in: path
         name: id
@@ -175,9 +267,50 @@ paths:
       - jwtAuth: []
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Loan'
+          description: ''
+  /api/books/loans/{id}/update/:
+    put:
+      operationId: api_books_loans_update_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Loan'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Loan'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Loan'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Loan'
+          description: ''
     patch:
-      operationId: api_books_loans_partial_update
+      operationId: api_books_loans_update_partial_update
       parameters:
       - in: path
         name: id
@@ -187,11 +320,28 @@ paths:
         required: true
       tags:
       - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLoan'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLoan'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLoan'
       security:
-      - jwtAuth: []
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Loan'
+          description: ''
   /api/users/:
     get:
       operationId: api_users_list
@@ -362,6 +512,62 @@ paths:
           description: ''
 components:
   schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 50
+        author:
+          type: string
+          maxLength: 50
+        publication_date:
+          type: string
+          format: date
+        summary:
+          type: string
+          nullable: true
+        pages:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        copies_quantity:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        is_available:
+          type: boolean
+          readOnly: true
+      required:
+      - author
+      - id
+      - is_available
+      - publication_date
+      - title
+    BookCopy:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        book_title:
+          type: string
+          readOnly: true
+        book:
+          type: string
+          format: uuid
+        is_borrowed:
+          type: boolean
+      required:
+      - book
+      - book_title
+      - id
     Following:
       type: object
       properties:
@@ -411,6 +617,61 @@ components:
       - id
       - is_returned
       - user
+    PatchedBook:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type: string
+          maxLength: 50
+        author:
+          type: string
+          maxLength: 50
+        publication_date:
+          type: string
+          format: date
+        summary:
+          type: string
+          nullable: true
+        pages:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        copies_quantity:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        is_available:
+          type: boolean
+          readOnly: true
+    PatchedLoan:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          format: date
+          readOnly: true
+        devolution_date:
+          type: string
+          format: date
+          readOnly: true
+        is_returned:
+          type: boolean
+          readOnly: true
+        book_copy:
+          type: string
+          format: uuid
+        user:
+          type: string
+          format: uuid
     PatchedUser:
       type: object
       properties:

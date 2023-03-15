@@ -11,7 +11,7 @@ class LoanSerializer(serializers.ModelSerializer):
         user = validated_data["user"]
         active_loans = Loan.objects.filter(user=user, is_returned=False)
         active_loans_date = active_loans and Loan.objects.filter(
-            user=user, devolution_date__lt=today, is_returned = False
+            user=user, devolution_date__lt=today, is_returned=False
         )
 
         if active_loans_date.exists():
@@ -32,6 +32,12 @@ class LoanSerializer(serializers.ModelSerializer):
         book_copy.save()
 
         return Loan.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.is_returned = True
+        instance.save()
+
+        return super().update(instance, validated_data)
 
     class Meta:
         model = Loan

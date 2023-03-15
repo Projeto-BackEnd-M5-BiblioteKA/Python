@@ -1,33 +1,27 @@
-from django.shortcuts import render
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAdminUser
 from .models import BookCopy
 from books.models import Book
 from .serializers import BookCopySerializer
-from rest_framework.views import APIView, status, Request
-from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.generics import ListCreateAPIView
 
 
-class BookCopyView(APIView, PageNumberPagination):
+class BookCopyView(ListCreateAPIView, PageNumberPagination):
+    queryset = BookCopy.objects.all()
+    serializer_class = BookCopySerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAdminUser]
 
-    def post(self, request: Request, book_id) -> Response:
-        books = get_object_or_404(Book, id=book_id)
-        serializer = BookCopySerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+    def get_queryset(self):
+        book_id = self.kwargs.get("book_id")
+        return BookCopy.objects.filter(book=book_id)
 
-        serializer.save(book=books)
-
-        return Response(serializer.data, status.HTTP_201_CREATED)
-
-    def get(self, request: Request, book_id) -> Response:
-        books = BookCopy.objects.filter(book=book_id)
-        serializer = BookCopySerializer(books, many=True)
-
-        return Response(serializer.data, status.HTTP_200_OK)
+    def perform_create(self, serializer):
+        book_id = self.kwargs.get("book_id")
+        book = get_object_or_404(Book, id=book_id)
+        serializer.save(book=book)
 
 
 # Create your views here.

@@ -1,8 +1,8 @@
-from django.urls import path, include
-from .views import LoanView, LoanDetailView
-from rest_framework_simplejwt import views as jwt_views
+from django.urls import path
+from .views import LoanView, LoanDetailViewGet, LoanDetailViewUpdate
 
 urlpatterns = [
     path("books/loans/", LoanView.as_view()),
-    path("books/loans/<uuid:pk>", LoanDetailView.as_view()),
+    path("books/loans/<uuid:pk>/", LoanDetailViewGet.as_view()),
+    path("books/loans/<uuid:pk>/update/", LoanDetailViewUpdate.as_view()),
 ]
