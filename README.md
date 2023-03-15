@@ -1,6 +1,17 @@
-# Python
+# BiblioteKA
 
-# Instruções de uso:
+## Idealização do projeto:
+
+Um sistema de gestão bibliotecária.
+
+## Diagrama (DER):
+<img src="https://i.imgur.com/5Wo5cZS.png" />
+
+## Documentação do Projeto:
+<a href="https://python-production-fb5a.up.railway.app/api/docs/swagger-ui/#/"> Acessar link </a> 
+
+
+## Instruções de uso:
 
 1. Após clonar o repositório, crie seu ambiente virtual:
 ```bash
@@ -28,6 +39,10 @@ pip install -r requirements.txt
 #### POSTGRES_PASSWORD= " Senha do usuário db"
 #### POSTGRES_HOST= " Chave opcional, para definir o host em que a aplicação irá rodar "
 #### POSTGRES_PORT= " Chave opcional, para definir a porta em que a aplicação irá rodar "
+#### EMAIL_HOST= " Host dos serviços de e-mail. "
+#### EMAIL_PORT= " Porta dos serviços de e-mail. "
+#### EMAIL_HOST_USER= " Usuário dos serviços de e-mail. "
+#### EMAIL_HOST_PASSWORD= " Senha do usuário dos serviços de e-mail. "
 
 5. Execute as migrações no seu console:
 
