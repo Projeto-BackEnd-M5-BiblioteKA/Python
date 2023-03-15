@@ -29,7 +29,6 @@ urlpatterns = [
     path("api/", include("loans.urls")),
     path("api/", include("books_copy.urls")),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
-    # Opcionais (escolha 1)
     path(
         "api/docs/swagger-ui/",
         SpectacularSwaggerView.as_view(url_name="schema"),

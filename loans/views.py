@@ -1,11 +1,8 @@
-from rest_framework import generics
-from rest_framework.views import APIView, status, Request
-from rest_framework.response import Response
+from rest_framework.generics import ListCreateAPIView, ListAPIView, UpdateAPIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser
 from .models import Loan
 from .serializers import LoanSerializer
-from django.shortcuts import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.exceptions import ValidationError
 from .permissions import CustomLoansPermissions
@@ -13,43 +10,36 @@ from .permissions import CustomLoansPermissions
 # Create your views here.
 
 
-class LoanView(generics.ListCreateAPIView, PageNumberPagination):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAdminUser]
+class LoanView(ListCreateAPIView, PageNumberPagination):
     queryset = Loan.objects.all()
     serializer_class = LoanSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
 
 
-class LoanDetailView(APIView):
+class LoanDetailViewGet(ListAPIView):
+    queryset = Loan.objects.all()
+    serializer_class = LoanSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [CustomLoansPermissions]
 
-    def get(self, request: Request, pk) -> Response:
-        is_collaborator = request.user.is_collaborator
+    def get_queryset(self):
+        is_collaborator = self.request.user.is_collaborator
+        user_id = self.kwargs.get("pk", None)
 
-        print(request.user.username)
+        print(user_id, self.request.user.id)
 
-        if pk != request.user.id and not is_collaborator:
+        if user_id != self.request.user.id and not is_collaborator:
             raise ValidationError(
                 "You don't have permissions, you not collaborator and can list only yourself loans."
             )
 
         if is_collaborator:
-            loans = Loan.objects.all()
-        else:
-            loans = Loan.objects.filter(user=pk)
+            return Loan.objects.all()
 
-        serializer = LoanSerializer(loans, many=True)
-        return Response(serializer.data, status.HTTP_200_OK)
+        return Loan.objects.filter(user=user_id)
 
-    def patch(self, request: Request, pk) -> Response:
-        loans = get_object_or_404(Loan, id=pk)
-        loans.is_returned = True
-        serializer = LoanSerializer(loans, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
 
-        self.check_object_permissions(request, loans)
-
-        serializer.save()
-
-        return Response(serializer.data, status.HTTP_200_OK)
+class LoanDetailViewUpdate(UpdateAPIView):
+    queryset = Loan.objects.all()
+    serializer_class = LoanSerializer

@@ -1,18 +1,15 @@
-# from django.shortcuts import render
-# from rest_framework.views import APIView
-# from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .serializers import FollowingSerializer
 from .models import Following
-from rest_framework import generics
+from rest_framework.generics import CreateAPIView
 from django.core.mail import send_mail
 from django.conf import settings
 from books.models import Book
 
 
-class FollowingView(generics.CreateAPIView):
+class FollowingView(CreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
