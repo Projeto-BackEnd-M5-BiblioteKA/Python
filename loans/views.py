@@ -27,8 +27,6 @@ class LoanDetailViewGet(ListAPIView):
         is_collaborator = self.request.user.is_collaborator
         user_id = self.kwargs.get("pk", None)
 
-        print(user_id, self.request.user.id)
-
         if user_id != self.request.user.id and not is_collaborator:
             raise ValidationError(
                 "You don't have permissions, you not collaborator and can list only yourself loans."
